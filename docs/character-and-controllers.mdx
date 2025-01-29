@@ -1,0 +1,197 @@
+---
+title: Character and Controllers
+description: Explore the gameplay mechanics and player experience in the development build of the Shooter Starter Game.
+---
+
+**Characters** and **Controllers** are the heart of **Player** and **AI** interactions in the **Shooter Starter Game**.
+This section focuses on the systems that manage **movement**, **Input**, and behavior for both **Player-Controlled Characters** and **Bots**.
+You’ll learn how to configure **Character** classes, customize **Controllers**, and implement **AI** behaviors that create responsive and challenging gameplay.
+By mastering these systems, you can deliver smooth and engaging interactions that elevate the player experience.
+
+## Character Configuration
+
+The **Character Configuration** section delves into the customizable aspects of the **In-Game Character**.
+This includes defining **Settings** for **Audio**, **Inventory**, **Health**, and **Movement**, ensuring your character behaves and responds as intended in various gameplay scenarios.
+By tailoring these **Configurations**, you can create a more immersive and engaging player experience.
+
+### Character Movement
+
+The **Movement Settings** define how your **Character** navigates the game world, covering aspects like **Walk Speed**, **Sprint Speed**, and special movement abilities (*e.g., crouching, dashing, aiming*).
+These **Settings** ensure that your **Character's Movement** feels intuitive and responsive to **Player Inputs**.
+
+![](/assets/character-and-controllers/character_settings.png)
+
+<AccordionGroup>
+    <Accordion title="Movement Properties">
+        <Property name="Can Sprint" type="Boolean" optional>
+            A **Boolean** that enables or disables the **Character's Ability** to **Sprint**.
+        </Property>
+        ---
+        <Property name="Can ADS" type="Boolean" optional>
+            A **Boolean** that allows or restricts the **Character's Ability** to **Aim Down Sights**.
+        </Property>
+        ---
+        <Property name="Can Dash" type="Boolean" optional>
+            A **Boolean** that enables or disables the **Character's Ability** to perform a **Dash** action.
+        </Property>
+        ---
+        <AccordionGroup>
+        <Accordion title="Character Movement: Dashing">
+            <Property name="Dash Strenght" type="Float" required>
+                A **Float** value that determines the **Force** applied when the **Character** performs a **Dash**.
+            </Property>
+            ---
+            <Property name="Dash Duration" type="Float" required>
+                A **Float** value that specifies the **Time** (*in seconds*) the **Character's Dash** lasts.
+            </Property>
+            ---
+            <Property name="Dash Cooldown Duration" type="Float" required>
+                A **Float** value that defines the **Time** (*in seconds*) the **Character** must **Wait** before **Dashing** again.
+            </Property>
+            ---
+            <Property name="Clamp Velocity On Dash Start" type="Float" required>
+                A **Float** value that limits the **Character's Velocity** upon completing a **Dash**, ensuring **Controlled Movement** after the **Dash** concludes.
+            </Property>
+            ---
+            <Property name="Dash Movement Mode" type="Enum" required>
+                This is an **EDashMovementMode Enum** that determines the **Direction** of the **Dash**.
+
+                <Card>
+                    The available **Options** are:
+
+                    | Enumerators                | Description                                                      |
+                    | -------------------------- | ---------------------------------------------------------------- |
+                    | `Camera Forward Direction` | **Dashes** in the **Direction** the **Camera** is **Facing**.    |
+                    | `Pawn Facing Direction`    | **Dashes** in the **Direction** the **Character** is **Facing**. |
+                    | `Pawn Movement Direction`  | **Dashes** in the **Direction** the **Character** is **Moving**. |
+                </Card>
+            </Property>
+            ---
+            <Property name="Gravity Enabled On Dash Start" type="Boolean" optional>
+                A **Boolean** that determines whether **Gravity** affects the **Character** at the **Start** of a **Dash**.
+
+                <Info>
+                    To enable **Sliding Mechanics** for your **Character**, set `Gravity Enabled On Dash Start` to `False`.
+                    This ensures the **Character** remains **Grounded** during the **Dash**, creating a smooth **Sliding Movement**.
+                </Info>
+            </Property>    
+        </Accordion>
+        <Accordion title="Character Movement: Walking">
+            <Property name="Max Sprint Speed" type="Float" required>
+                A **Float** that defines the **Maximum Speed** the **Character** can achieve while **Sprinting**.
+            </Property>
+            ---
+            <Property name="Max Walk Speed ADS" type="Float" required>
+                A **Float** that defines the **Maximum Speed** the **Character** can achieve while **Aiming Down Sights** (*ADS*).
+            </Property>
+            ---
+            <Property name="Max Walk Speed Crouched ADS" type="Float" required>
+                A **Float** that defines the **Maximum Speed** the **Character** can achieve while **Crouched** and **Aiming Down Sights** (*ADS*).
+            </Property>
+        </Accordion>
+        </AccordionGroup>
+    </Accordion>
+    <Accordion title="Movement Functions and Events">
+        <Property name="GetShooterCharacterMovement()" type="Function">
+            A **Function** that retrieves the **Shooter Character Movement Component**,
+            providing access to the **Movement Properties** and behaviors of the **Shooter Character**, such as **Walking**, **Sprinting**, **Crouching**, and **Aiming**.
+        </Property>
+        ---
+        <AccordionGroup>
+            <Accordion title="Sprinting">
+                <Property name="CanSprint()" type="Function">
+                    A **Function** that, when called, **Triggers** the **Player** to **Start Sprinting**, increasing their **Movement Speed**,
+                    by activating a **Sprinting** state in the **Shooter Character's Movement Component**.
+                </Property>
+                ---
+                <Property name="Sprint()" type="Function">
+                    A **Function** that, when called, **Triggers** the **Player** to **Start Sprinting**, increasing their **Movement Speed**,
+                    by activating a **Sprinting** state in the **Shooter Character's Movement Component**.
+                </Property>
+                ---
+                <Property name="OnStartSprint()" type="Event">
+                    An event that is triggered when the player begins sprinting, signaling the start of the sprinting action,
+                    and typically used to initiate related gameplay behaviors such as increasing movement speed,
+                    triggering sprint animations, or updating stamina.
+                </Property>
+                ---
+                <Property name="UnSprint()" type="Function">
+                    A **Function** that, when called, **Stops** the **Player's Sprinting** behavior, returning the **Character** to their normal **Movement Speed** or a specified **Walking** pace.
+                </Property>
+                ---
+                <Property name="OnEndSprint()" type="Event">
+                    A **Function** that, when called, **Stops** the **Player's Sprinting** behavior, returning the **Character** to their normal **Movement Speed** or a specified **Walking** pace.
+                </Property>
+            </Accordion>
+            <Accordion title="Aiming">
+                <Property name="ADS()" type="Function">
+                    A **Function** that, when called, **Triggers** the **Player** to **Start Sprinting**, increasing their **Movement Speed**,
+                    by activating a **Sprinting** state in the **Shooter Character's Movement Component**.
+                </Property>
+                ---
+                <Property name="OnStartADS()" type="Event">
+                    A **Function** that, when called, **Triggers** the **Player** to **Start Sprinting**, increasing their **Movement Speed**,
+                    by activating a **Sprinting** state in the **Shooter Character's Movement Component**.
+                </Property>
+                ---
+                <Property name="UnADS()" type="Function">
+                    A **Function** that, when called, **Stops** the **Player's Sprinting** behavior, returning the **Character** to their normal **Movement Speed** or a specified **Walking** pace.
+                </Property>
+                ---
+                <Property name="OnEndADS()" type="Event">
+                    A **Function** that, when called, **Stops** the **Player's Sprinting** behavior, returning the **Character** to their normal **Movement Speed** or a specified **Walking** pace.
+                </Property>
+            </Accordion>
+            <Accordion title="Dashing">
+                <Property name="Dash()" type="Function">
+                    A **Function** that, when called, **Triggers** the **Player** to **Start Sprinting**, increasing their **Movement Speed**,
+                    by activating a **Sprinting** state in the **Shooter Character's Movement Component**.
+                </Property>
+                ---
+                <Property name="OnStartDash()" type="Event">
+                    A **Function** that, when called, **Triggers** the **Player** to **Start Sprinting**, increasing their **Movement Speed**,
+                    by activating a **Sprinting** state in the **Shooter Character's Movement Component**.
+                </Property>
+                ---
+                <Property name="OnEndDash()" type="Event">
+                    A **Function** that, when called, **Stops** the **Player's Sprinting** behavior, returning the **Character** to their normal **Movement Speed** or a specified **Walking** pace.
+                </Property>
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+</AccordionGroup>
+
+### Health System
+
+The Health Settings determine your character's health mechanics, such as starting health, health regeneration, damage resistance, and death behavior.
+These configurations ensure that your character's life cycle aligns with the intended gameplay balance and difficulty.
+
+![](/assets/character-and-controllers/character_settings_health.png)
+
+### Player Inventory
+
+The **Inventory Settings** manage the **Items** and **Equipment** your **Character** can carry and interact with.
+This includes **Setting** up default **Inventory Items**, defining **Inventory Limits**.
+These **Settings** are essential for games with loot systems or complex **Equipment** mechanics.
+
+![](/assets/character-and-controllers/character_inventory.png)
+
+### Audio Settings
+
+**Audio** plays a crucial role in creating an immersive gaming experience.
+In this section, you'll configure the **Sound Effects** and **Audio Cues** associated with the character's actions and interactions.
+From **Footsteps Sounds** to **Environmental** effects, these **Settings** ensure your **Character** feels alive and responsive in the game world.
+
+Properly tuned **Audio Settings** can significantly enhance gameplay by providing **Players** with clear feedback and adding depth to the overall experience.
+
+![](/assets/character-and-controllers/character_audio.png)
+
+## Controllers
+### Player Controller
+### AI Controller
+
+## Next Steps in Character Mastery
+
+You’ve learned the foundations of **Player** and **AI** interactions through **Characters** and **Controllers**.
+With this knowledge, you’re ready to manage the tools and gear that enhance gameplay.
+Let’s dive into **Inventory** and **Equipment** next!

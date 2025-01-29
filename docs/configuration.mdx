@@ -1,0 +1,302 @@
+---
+title: Configuration
+description: Explore and customize the core settings of the Shooter Starter Game
+---
+
+Here, you'll find detailed instructions on how to customize and configure essential elements of the **Shooter Starter Game**.
+This section covers everything from understanding the folder structure to modifying key blueprint classes that drive the core functionality of the game.
+Whether you're tailoring gameplay mechanics or organizing assets, this guide will help you get the most out of your project setup.
+
+Let’s begin by exploring the folder structure, followed by an in-depth look at the key blueprint classes you can configure to suit your game’s needs.
+
+## Folder Structure Overview
+
+![ContentBrowserImage](/assets/Content_Browser.png)
+
+A breakdown of the **Shooter Starter Game's** folder structure, detailing the contents and purpose of each folder for easier navigation and understanding.
+
+<Card>
+  The table provides a concise overview.
+
+  | Folder Name   | Description                                                                                                                                                                                         |
+  | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | `Audio`       | Contains all assets related to game audio, including `.wav` files, **MetaSounds**, and **Blueprints**.                                                                                              |
+  | `Characters`  | Contains **Player Animations**, **Blueprints**, **Components** (*health component*, *movement component*, *etc*) and other assets related to character functionality and behavior.                  |
+  | `Controllers` | Contains input **Blueprints**, **Player Controller** classes, **Camera Shake** classes, managing player inputs and feedback systems.                                                                |
+  | `GameModes`   | Contains all **Blueprints**, **Components** (*team creation component*, *bot spawner component*, *etc*) related to game modes, defining the rules and logic for different gameplay **Experiences**. |
+  | `Libraries`   | Contains all **Structs**, **Enums**, and **Blueprint Function Libraries**, providing reusable data structures and utility functions across the project.                                             |
+  | `Maps`        | Contains all maps and the **Static Actors** placed within them, defining the game world and environments.                                                                                           |                  
+  | `UI`          | Contains all **UI Materials** and **Widget Blueprints**, handling the visual elements and interactive components of the user interface.                                                             |
+  | `Weapons`     | Contains **Weapon Meshes** & **Animations**, **Weapon** & **Grenade Actor Blueprints**, defining the functionality and behavior of weapons and throwable objects in the game.                       |
+</Card>
+
+## Key Blueprint Classes
+
+In **Shooter Starter Game**, several blueprint classes form the core of the gameplay mechanics.
+Understanding these classes will help you customize and extend the game to suit your needs.
+
+<Card>
+  Below is an overview of the key blueprint classes:
+
+  | Blueprint Class                  | Description                                                                                                                                        |
+  | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | `BP_ShooterGameInstance`         | Handles **Game-wide Data** and persists across levels, including **Player Profiles**, **Settings**, and **Session Management**.                    |
+  | `BP_ShooterGameMode`             | Controls game rules, win conditions, **Player spawning**, **Team Creation** and game state transitions.                                            |
+  | `BP_ShooterGameState`            | Manages game-specific state, including **Team Score** tracking, **Match Status**, and player data across all players in the session.               |
+  | `BP_ShooterPlayerState`          | Manages player-specific data like **Score**, **Kills**, **Assists**, **Deaths** and **Team Affiliation**.                                          |
+  | `BP_ShooterPlayerController`     | Manages player **Input**, **Controls**, and **Camera** behavior. It manages the **Communication** between the player’s actions and the game world. |
+  | `BP_ShooterPlayerBotController`  | Handles **AI-controlled** player behavior, including **Movement**, **Actions**, and decision-making.                                               |
+  | `BP_ShooterHUD`                  | Manages the in-game user interface (UI), including elements like **Health Bars**, **Ammo Count**, and **Score** display.                           |
+  | `BP_Hero_Default`                | Defines the player’s **Avatar**, including **Movement Mechanics**, **Health**, and **Animations**.                                                 |
+  | `BP_ShooterRangedWeaponInstance` | Defines weapon behavior, including **Shooting Mechanics**, **Ammo Count**, and **Reloading**.                                                      |
+</Card>
+
+## Configuring Game Data
+
+In this section, you'll learn how to customize and configure the core game elements that control gameplay mechanics, player behaviors, and other essential features.
+By adjusting these settings, you can tailor the game to fit your desired experience, whether it's changing the rules of the game, modifying player attributes, or configuring weapons and HUD elements.
+This process allows you to fine-tune the game to meet your specific needs, whether for single-player or multiplayer modes. Let's dive into the key areas where you can make adjustments and enhance your project.
+
+The `ShooterGameData` asset allows users to assign specific game **Experiences** to each **Map** in the project.
+This system provides flexibility to customize gameplay by associating unique experiences with different maps.
+
+The `ShooterGameData` asset is located at: `/ShooterStarterGame/ShooterGameData`
+
+![ShooterGameDataImage](/assets/ShooterGame_Data.png)
+
+The **ShooterGameData** asset uses a **TMap** to associate maps with their respective game experiences. Below is an overview of the structure:
+
+<AccordionGroup>
+  <Accordion title="Key (Map)">
+    The **Map** to which the **Experience** is assigned.
+  </Accordion>
+  <Accordion title="Value (Experience Info)" defaultOpen>
+    <Property name="Name" type="Name" required>
+      A descriptive **Name** for the game **Experience** associated with the **Map**.
+    </Property>
+    ---
+    <Property name="Description" type="Text" optional>
+      A brief **Description** summarizing the gameplay **Experience**.
+    </Property>
+        ---
+    <Property name="Experience" type="Class" required>
+      The specific **Class** that defines the game **Experience** logic.
+    </Property>
+        ---
+    <Property name="Max Active Players" type="Integer" required>
+      The **Maximum Number of Players** that can join the **Map** for the associated **Experience**.
+    </Property>
+  </Accordion>
+</AccordionGroup>
+
+- Use descriptive **Names** and detailed **Descriptions** to make the settings intuitive for collaborators.
+- Ensure the **Experience Class** is correctly implemented and compatible with the **Map’s** gameplay design.
+- Set the **Number of Players** based on the **Map** size and intended gameplay style.
+
+### Experience Definition
+
+**Experience Class** allow you to define and customize the **Core Gameplay Elements** and environment for a specific experience within your game.
+This section provides advanced control over how the **Game Behaves**, including **Rules**, **Objectives**, and **Player Interactions**
+Adjusting these settings will help tailor the gameplay to your vision, ensuring a unique and engaging experience for players.
+
+<Info>You can think of **Experiences** as a much more advanced version of a **GameMode**, offering more flexibility and control over the gameplay mechanics and structure.</Info>
+
+**Experiences** are defined using a `ShooterGameExperienceDefinition` class.
+
+![ShooterGameExperienceImage](/assets/ShooterGame_Experience.png)
+
+The following provides a detailed breakdown of the variables within the **Experience Definition**.
+These variables control various aspects of gameplay, and the information is organized into accordion groups for easier navigation and understanding.
+
+<Accordion title="Experience Definition">
+  <Accordion title="UI">
+    <Property name="Layouts" type="Array<UserWidgetBlueprint>" optional>
+      An array of **Widget Blueprints** designed specifically for the **Player**.
+      These widgets are used to display various in-game **UI Elements**, such as **Health Bars**, **Score Counters**, and other player-related information.
+      Each entry in the array corresponds to a unique **Widget Blueprint**, allowing for flexible and customizable **UI Layouts** tailored to the **Player's** needs during gameplay.
+    </Property>
+  </Accordion>
+  <Accordion title="Gameplay">
+    <Accordion title="Game">
+      <Property name="Experience Tags" type="GameplayTagContainer" optional>
+        A container for gameplay **Tags** that control the behavior of **Gameplay Actors**.
+        These **Tags** are used to modify specific aspects of the game, providing dynamic **Gameplay Experiences**.
+        <Card>
+          Here are some of **Tags** and their **Results**:
+          | Gameplay Tag                                    | Result                                                                                               |
+          | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+          | `ShooterGame.Gameplay.Weapon.InfiniteAmmo`      | Grants the weapon **Infinite Spare Ammo**.                                                           |
+          | `ShooterGame.Gameplay.Damage.Immunity`          | Protects **Players** from taking any **Damage**, making them **Invulnerable**.                       |
+          | `ShooterGame.Gameplay.Damage.Immunity.Friendly` | Blocks **Damage** to **Friendly** players (*those on the same team*), ensuring they remain unharmed. |
+          | `ShooterGame.Gameplay.Character.BOT.SpawnBlock` | Prevents **Bots** from **Spawning** in the game.                                                     |
+        </Card>
+      </Property>
+      ---
+      <Accordion title="Phase">
+        <Property name="Game Phases" type="TMap<ShooterGamePhase>" optional>
+          **GamePhases** is a TMap that maps the current game state to its corresponding **ShooterGamePhase** class.
+          The key represents the current game state (*e.g., playing, warmup, post-game*), while the value is the **ShooterGamePhase** class that defines the behavior and logic for that phase.
+
+          Based on the current game state, the associated **ShooterGamePhase** will be activated, controlling the flow of the game.
+          This setup allows for a structured approach to managing different stages of the game, such as:
+          - **Warmup Phase:** Prepares players and sets up the game environment.
+          - **Playing Phase:** The main gameplay session where players compete.
+          - **Post-Game Phase:** Displays results, accolades, and prepares for the next round.
+
+          <Info>
+            If the `WaitingToStart` state has no phase association in the **Game Phases** array,
+            the **StartMatch** function of the **Game Mode** must be manually invoked to transition the game into the `InProgress` state.
+          </Info>
+          This system ensures smooth transitions between **Phases** and provides a modular way to manage game states.
+        </Property>
+      </Accordion>
+      <Accordion title="Classes">
+        <Property name="Shooter Pawn Class" type="ShooterCharacter" required>
+          **ShooterPawn Class** is the base class for all **Player-Controlled** and **AI-Controlled** characters in the game.
+        </Property>
+        ---
+        <Property name="Shooter Bot Controller Class" type="ShooterPlayerBotController" required>
+          **ShooterBotController Class** is responsible for controlling **AI Bots** in the game.
+          It manages the behavior of **AI-Controlled** characters, allowing them to interact with the game world autonomously.
+        </Property>
+      </Accordion>
+    </Accordion>
+    <Accordion title="Components">
+      <Accordion title="Game State">
+        <Property name="Game State Components List" type="Array<ActorComponent>" optional>
+          The **GameStateComponents List** is an array of **Actor Components** that are dynamically added to the **GameState**.
+          Each component serves a specific purpose in managing and enhancing the **Gameplay Experience**.
+          <Card>
+            Below is a detailed breakdown of the **Components**:
+            | Component Name                | Description                                                                                              |
+            | ----------------------------- | -------------------------------------------------------------------------------------------------------- |
+            | `BPC_MusicManagerComponent`   | Manages in-game **Audio** and **Sound** effects.                                                         |
+            | `BPC_EliminationMessageRelay` | Handles the **Elimination Feed** and **Accolades**.                                                      |
+            | `BPC_ShooterGameScoringBase`  | Updates and tracks **Team** and **Player Scoring**. Serves as the base class for **Scoring Components**. |
+            | `BPC_GameStatusProcessor`     | Processes and controls gameplay **Status** messages.                                                     |
+            | `BPC_NameplateDiscoverer`     | Manages the visibility of **Nameplates** over characters in the game world.                              |
+          </Card>
+        </Property>
+      </Accordion>
+      <Accordion title="Game Mode">
+        <Property name="Game Mode Components List" type="Array<ActorComponent>" optional>
+          The **GameModeComponents List** is an array of **Actor Components** that are dynamically added to the **Game Mode**.
+          These components handle critical game mechanics and functionalities specific to the **Game Mode**, such as **Team Creation** and **Bot Management**.
+          By modularizing these functionalities, the system ensures flexibility and scalability for different **Game Modes**.
+          <Card>
+            Below is a detailed breakdown of the **Components**:
+            | Component Name                 | Description                                                                                                                                      |
+            | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+            | `ShooterTeamCreationComponent` | Manages the creation of **Teams** and assigns **Players** to those teams dynamically. Serves as the base class for **Team Creation Components**. |
+            | `ShooterBotCreationComponent`  | Manages the **Spawning** and **Removal** of **Bot Controllers** for dynamic gameplay scenarios.                                                  |
+          </Card>
+        </Property>
+        ---
+        <Accordion title="Bot Spawner Component">
+          <Property name="NumBotsToCreate" type="Integer" required>
+            The **NumBotsToCreate** variable specifies the number of **Bot Players** to be **Spawned** at the **Start** of the game.
+            This value allows for dynamic adjustment of the **Bot** count based on the desired **Gameplay Experience**,
+            ensuring the match has sufficient participants to maintain balance and engagement.
+          </Property>
+        </Accordion>
+      </Accordion>
+    </Accordion>
+  </Accordion>
+</Accordion>
+
+### Phase Definition
+
+The **ShooterGamePhase** class is responsible for defining the behavior and logic of a **Specific Phase** in the game.
+Each phase corresponds to a particular stage of the game, such as the **Warmup**, **Active Gameplay**, or **Post-Game**.
+This class handles the transitions, events, and actions that occur during that **Phase**.
+
+![ShooterGamePhasesImage](/assets/ShooterGame_Phases.png)
+
+Key responsibilities of the **ShooterGamePhase** class include:
+- **Managing Game State Transitions:** It ensures the game moves from one **Phase** to another, such as from **Warmup** to **Active Gameplay**, and finally to **Post-Game**.
+- **Handling Phase-Specific Logic:** Each phase may have unique logic, such as countdown timers during **Warmup**,tracking gameplay objectives during the **Playing** phase, or displaying match results in the **Post-Game** phase.
+- **Customizable Behavior:** Developers can extend or modify this class to introduce custom behaviors or new phases to fit the needs of the game.
+
+By using the **ShooterGamePhase** class, the game can be organized into well-defined segments,
+each with its own **Rules** and **Flow**, providing a more structured and customizable **Game Experience**.
+
+![ShooterGamePhaseImage](/assets/ShooterGame_Phase.png)
+
+The table provides a detailed overview of the variables that define each **ShooterGamePhase**. These variables control the behavior, **Duration**, and **Communication** of the phase within the game.
+By configuring these **Variables**, you can customize how each **Phase** operates, what **Gameplay Effects** are applied, and how **Messages** are **Broadcast** to other systems during that **Phase**.
+
+<Accordion title="Game Phase Definition">
+  <Property name="Name" type="Name" optional>
+    The identifier for the **Phase**, used to label and reference it in the game logic.
+  </Property>
+  ---
+  <Property name="Duration" type="Float" required>
+    Specifies the **Length** of the **Phase** in **Seconds**.
+
+    <Info>
+      If the **Duration** of a **Phase** is set to **-1**, the **Phase** will never automatically **End**.
+      It will remain active indefinitely unless manually **Deactivated** or the **Current State** is changed by the **Game Mode**.
+      This is useful in scenarios where you want a **Phase**, such as the **Playing Phase**, to remain **Active** without a **Time Limit**.
+      For example, if you set the **Playing Phase** to have no end time (*by setting the duration to -1*), it will continue until the **Game Mode** explicitly changes the **State** or manually **Deactivates** it.
+    </Info>
+  </Property>
+  ---
+  <Property name="Phase Tags" type="GameplayTagContainer" optional>
+    Similar to **Experience Tags**, these **Tags** control gameplay behavior but are only **Active** during the respective **Phase**.
+    For example, an **Immunity Tag** in the **Warm-Up Phase** will only apply during that **Phase**.
+    <Card>
+      Here are some of **Tags** and their **Results**:
+      | Gameplay Tag                                    | Result                                                                                               |
+      | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+      | `ShooterGame.Gameplay.Damage.Immunity`          | Protects **Players** from taking any **Damage**, making them **Invulnerable**.                       |
+      | `ShooterGame.Gameplay.Damage.Immunity.Friendly` | Blocks **Damage** to **Friendly** players (*those on the same team*), ensuring they remain unharmed. |
+      | `ShooterGame.Gameplay.Weapon.InfiniteAmmo`      | Grants the weapon **Infinite Spare Ammo**.                                                           |
+    </Card>
+  </Property>
+  ---
+  <Property name="Broadcast Channel" type="GameplayTag" required>
+    The **Channel** used for **Broadcasting Phase-Related Messages**, such as **Phase Start** or **Phase End**, to other gameplay systems.
+  </Property>
+</Accordion>
+
+## Dive Into the Details
+
+Congratulations! You've successfully explored the **Core Gameplay Elements**. From understanding the **Folder Structure** and **Blueprint classes** to configuring game **Experience** and **Phases**,
+you're now equipped to tailor the project to your needs.
+
+For more in-depth **Topics** and **Advanced** customization, proceed to the **Advanced** group. Here, you'll find detailed guides and tools to further enhance your project and gameplay experience.
+
+<Card title="Character and Controllers" icon="person-rifle" href="/character-and-controllers">
+  Learn about the **Character** setup and **Player Controllers** used in the game.
+  This topic covers the **Player Character's Movement**, **Actions**, and how the **Controller** interacts with the game world.
+  It also includes **AI Bot Controllers** for creating non-player characters (*NPCs*) that can interact with players.
+</Card>
+
+<Card title="Inventory and Equipments" icon="gun" href="/inventory-and-equipments">
+  This topic covers the **Inventory System** and **Equipment Management**. 
+  Learn how items are handled within the game, including how **players** can **Equip**, and use **Weapons**, **Gear**, and other **Assets**.
+  Customize the **Inventory System** to fit your game's needs.
+</Card>
+
+<Card title="HUD and UI Widgets" icon="display" href="/hud-and-ui-widgets">
+  Explore the user interface (*UI*) elements of the game, including heads-up displays (*HUD*) and **Widgets**.
+  Learn how to customize and implement **UI Components** that display important information to **Players**, such as **Health**, **Score**, **Ammo**, and other **In-Game Stats**.
+</Card>
+
+<Card title="Gameplay Components" icon="shapes" href="/gameplay-components">
+  This topic dives into the **Gameplay Components** that manage the game's logic and interactions.
+  Learn about the systems that control the game’s flow, including **Scoring**, **Match Phases**, and **In-Game Events**.
+  These **Components** are essential for defining how the game operates and reacts to **Player Actions**.
+</Card>
+
+<Card title="Experiences and Phases" icon="database" href="/experiences-and-phases">
+  Understand the concept of **Game experiences** and **Phases**.
+  **Experiences** are advanced configurations that influence how the game is played, while **Phases** define the different **Stages of the Game** (*e.g., warmup, in-game, post-game*).
+  This topic will guide you through **Configuring** and **Customizing** these **Phases** for unique gameplay experiences.
+</Card>
+
+<Card title="Function and Macro Libraries" icon="code" href="/function-and-macro-libraries">
+  Explore the **Function** and **Macro Libraries** used throughout the project.
+  These reusable **Blueprints** and **Functions** help streamline development by centralizing common logic and operations.
+  Learn how to use and extend these **Libraries** to add custom functionality to your game.
+</Card>

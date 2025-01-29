@@ -1,0 +1,86 @@
+{
+  "name": "Shooter Starter Game Docs",
+  "description": "Ship documentation, like you ship code",
+  "logo": {
+    "light": "/assets/icon/LOGO-18.png"
+  },
+  "favicon": "/assets/icon/LOGO-18.png",
+  "theme": {
+    "primary": "#ECC918",
+    "primaryLight": "#BFA213"
+  },
+  "content": {
+    "showPageTitle": true,
+    "showPageImage": true
+  },
+  "social": {
+    "x": "GenOS_Studio",
+    "github": "GenOSStudio/shooter-starter-game-docs"
+  },
+  "tabs": [
+    {
+      "id": "root",
+      "title": "Documentation",
+      "href": "/"
+    }
+  ],
+  "sidebar": [
+    {
+      "group": "Getting Started",
+      "tab": "root",
+      "pages": [
+        { "title": "Overview", "href": "/", "icon": "book" },
+        {
+          "title": "Getting Started",
+          "href": "/getting-started",
+          "icon": "rocket"
+        },
+        { "title": "Configuration", "href": "/configuration", "icon": "gear" }
+      ]
+    },
+    {
+      "group": "Advanced",
+      "tab": "root",
+      "pages": [
+        {
+          "title": "Character and Controllers",
+          "href": "/character-and-controllers",
+          "icon": "person-rifle"
+        },
+        {
+          "title": "Inventory and Equipments",
+          "href": "/inventory-and-equipments",
+          "icon": "gun"
+        },
+        {
+          "title": "HUD and UI Widgets",
+          "href": "/hud-and-ui-widgets",
+          "icon": "display"
+        },
+
+        {
+          "title": "Gameplay Components",
+          "href": "/gameplay-components",
+          "icon": "shapes"
+        },
+        {
+          "title": "Experiences and Phases",
+          "href": "/experiences-and-phases",
+          "icon": "database"
+        },
+        {
+          "title": "Function and Macro Libraries",
+          "href": "/function-and-macro-libraries",
+          "icon": "code"
+        }
+      ]
+    }
+  ],
+  "search": {
+    "docsearch": {
+      "apiKey": "9b58d13ee3195094105d528fc6161a01",
+      "appId": "BH4D9OD16A",
+      "indexName": "use_docs_page"
+    }
+  }
+}

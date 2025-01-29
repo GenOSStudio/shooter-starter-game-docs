@@ -1,0 +1,104 @@
+---
+title: Getting Started
+description: Quickly set up and start building your custom shooter game with the Shooter Starter Game in Unreal Engine 5.
+---
+
+Welcome to the **Shooter Starter Game**! This guide will walk you through the steps to set up and start using the project in **Unreal Engine 5** (*UE5*).
+Whether you're a beginner or an experienced developer, this resource is designed to help you quickly get up to speed and begin creating your own custom shooter game.
+
+Follow the instructions below to download, configure, and launch the project. You'll also find tips on how to modify gameplay, integrate new content,
+and explore the modular systems that make the **Shooter Starter Game** a powerful foundation for your next project.
+
+Let’s get started and bring your shooter game ideas to life!
+
+## Setting Up a Project
+
+<Steps>
+  <Step title="Open the Epic Games Launcher">
+   Launch the **Epic Games Launcher** on your computer and log in to your account.
+  </Step>
+  <Step title="Navigate to the Unreal Engine Tab">
+    Click on the **Unreal Engine** tab in the left-hand menu of the launcher.
+  </Step>
+  <Step title="Go to the Marketplace">
+    Under the **Unreal Engine** tab, select **Marketplace** to browse the required [plugin]().
+  </Step>
+  <Step title="Search for the ShooterGameplaySystem Plugin">
+    Use the search bar to find **ShooterGameplaySystem**.
+    - Add the plugin to your **Epic Games Library**.
+    - Install the plugin for the **Unreal Engine** version you are using.
+
+    <Error>Ensure that you install the ShooterGameplaySystem plugin for the specific Unreal Engine version you will be using to create the project.</Error>
+  </Step>
+  <Step title="Go to Your Library">
+    Navigate to the Library tab in the **Unreal Engine** section of the launcher.
+
+    <Warning>Make sure the Shooter Starter Game you purchased is visible in your Epic Games Library. 
+    If it’s not, please contact Epic Games support for assistance, as the project cannot be created without it.</Warning>
+  </Step>
+  <Step title="Create the Project">
+    - Locate the (*ShooterStarterGame*) assest in your Library.
+    - Click **Create Project**.
+    - Choose a directory on your computer to save the project and click **Create**.
+  </Step>
+  <Step title="Open the Project in Unreal Engine">
+    Once the project is created, click **Launch** or open it directly in **Unreal Engine** from the file location.
+  </Step>
+  <Step title="Start Exploring and Customizing">
+    Begin exploring the project’s features and start customizing it to fit your needs.
+  </Step>
+</Steps>
+
+## Playing the Game
+
+Testing your game within the **Unreal Engine Editor** is an essential step in development. It allows you to quickly iterate on gameplay mechanics, test multiplayer functionality,
+and make adjustments in real time. In this section, we’ll guide you through the process of running your game directly in the editor, whether you're testing it in **single-player** or **multiplayer mode**.
+This approach gives you the flexibility to evaluate the game without needing to build or package it for deployment.
+
+Once in **Play In Editor** (*PIE*) mode, your **Player Controller** will take possession of the **Shooter Pawn**.
+The level contains several portals that load into different **Experiences**, allowing you to explore and test various game mechanics.
+
+![DefaultEditorOverviewImage](/assets/Default_Editor_Overview.gif)
+
+<Card title="Map Descriptions" icon="map">
+  Brief details of each map, including key features and objectives.
+
+  | Game Mode       | Description                                                                         | Content File Path                                  |
+  | --------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------- |
+  | **Default Map** | The base example of the user facing map.                                            | `/ShooterStarterGame/Maps/S_DefaultEditorOverview` |
+  | **Front End**   | Contains the Main Menu of the Shooter Starter Game.                                 | `/ShooterStarterGame/Maps/S_ShooterFrontEnd`       |
+  | **Elimination** | Find and eliminate enough enemies to win in this classic head-to-head team match.   | `/ShooterStarterGame/Maps/S_SupplyDock`            |
+  | **Domination**  | Secure the control points along with your teammates to increase your score and win. | `/ShooterStarterGame/Maps/S_SupplyDock`            |
+</Card>
+
+### Launching the Game in Editor
+
+<CardGroup>
+  <Card title="Standalone Mode" icon="cog">
+    Play the game locally within the **Unreal Engine** Editor.
+    - In the toolbar, click the **Play** button to start the game in **Standalone Mode**. This will launch the game as a **Single-Player Experience**, with no network connections involved.
+  </Card>
+  <Card title="Multiplayer Mode" icon="cog">
+    Set up and play the game in a multiplayer environment within the **Unreal Engine** Editor.
+    <Steps>
+      <Step title="Set the Net Mode">
+        In the toolbar, set the **Net Mode** to either **Listen Server** or **Client**.
+      </Step>
+      <Step title="Set the Number of Players">
+        In the **Play** dropdown menu, set the number of players to **2** or **More** depending on your multiplayer test needs.
+      </Step>
+      <Step title="Click Play">
+        Click the **Play** button to start the game in multiplayer mode.
+      </Step>
+    </Steps>
+    <Warning>
+      If you're playing a **Frontend Map**, always launch the level in **Standalone Mode**. To create or join a session,
+      use the UI buttons within the game to manually set up or connect to a multiplayer session.
+    </Warning>
+  </Card>
+</CardGroup>
+
+## You're All Set!
+
+Now that you’ve successfully set up the project and learned how to play in **Standalone Mode** or configure **Multiplayer Mode** in the editor, it’s time to dive deeper into the project’s structure.
+Head over to the next page to explore the **Folder Layout**, understand the organization of **Assets**, and locate **Key Blueprints** to customize and expand your game.
